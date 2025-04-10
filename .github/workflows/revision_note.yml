@@ -1,0 +1,27 @@
+name: Add Revision Notes to Commits
+
+on:
+  push:
+    branches:
+      - '**'
+
+jobs:
+  add-notes:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Configure Git author
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+
+      - name: Add note to commit
+        run: |
+          commit_hash=${{ github.sha }}
+          commit_count=${{ github.run_number }}
+          git fetch origin refs/notes/commits:refs/notes/commits
+          git notes add -m "revision: $commit_count" $commit_hash
+          git push origin refs/notes/commits
