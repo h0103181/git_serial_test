@@ -7,3 +7,5 @@ feature 2
 feature 3
 
 bug fix 1
+
+feature 4
